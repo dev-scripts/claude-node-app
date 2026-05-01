@@ -1,0 +1,22 @@
+# Context Boundaries — files Claude should never read
+
+# Secrets & local config
+.env
+CLAUDE.local.md
+
+# Generated / binary
+node_modules/
+data/
+logs/
+coverage/
+*.log
+dist/
+build/
+
+# Claude internal state (not useful as context)
+.claude/agent-memory/
+.claude/worktrees/
+
+# Lock files (too large, not useful)
+package-lock.json
+yarn.lock

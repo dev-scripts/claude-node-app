@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": ["read", "write", "execute"],
+    "deny": ["delete_db", "drop_table"]
+  },
+  "hooks": {
+    "preToolUse": ".claude/hooks/pre-tool.js",
+    "postToolUse": ".claude/hooks/post-tool.js",
+    "sessionStart": ".claude/hooks/session-start.js"
+  },
+  "env": {
+    "NODE_ENV": "development",
+    "LOG_LEVEL": "info"
+  },
+  "allowedCommands": [
+    "node",
+    "npm",
+    "npx",
+    "cat",
+    "ls",
+    "mkdir",
+    "cp",
+    "mv"
+  ],
+  "mcpServers": {
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./src"]
+    }
+  }
+}
