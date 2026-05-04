@@ -14,13 +14,21 @@ Scans the MVC project source files and produces a quality report covering:
 - Missing await on async model calls
 - Hardcoded secrets or credentials
 
+## Delegation
+Run the actual file scanning inside the `code-reviewer` subagent
+(`.claude/agents/code-reviewer.md`) so the work happens in an isolated,
+read-only context on Haiku. The subagent returns a JSON array of findings;
+this skill is responsible for formatting them per the Output Format below.
+
 ## Steps
-1. List all files in `src/`
-2. Check each controller — every method must have try/catch
-3. Check each route — every POST/PUT must have `validate()` middleware
-4. Check each service — no direct `req`/`res` references allowed
-5. Check each model — only raw SQL, no business rules
-6. Report findings grouped by severity
+1. Invoke the `code-reviewer` subagent with `src/` as the scan target.
+2. Subagent lists files in `src/` and runs the checks below:
+   - Every controller method has `try/catch`
+   - Every POST/PUT route has `validate()` middleware
+   - Services do not reference `req`/`res` directly
+   - Models contain only raw SQL, no business rules
+3. Subagent returns a JSON array of findings (see its Output Schema).
+4. This skill formats the findings per the Output Format and groups by severity.
 
 ## Output Format
 ```
