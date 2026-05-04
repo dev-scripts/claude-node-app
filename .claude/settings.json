@@ -1,32 +1,46 @@
 {
   "permissions": {
-    "allow": ["read", "write", "execute"],
-    "deny": ["delete_db", "drop_table"]
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Bash"
+    ],
+    "deny": [
+      "Bash(rm -rf /:*)",
+      "Bash(*DROP TABLE*)",
+      "Bash(*DROP DATABASE*)"
+    ]
   },
   "hooks": {
-    "preToolUse": ".claude/hooks/pre-tool.js",
-    "postToolUse": ".claude/hooks/post-tool.js",
-    "sessionStart": ".claude/hooks/session-start.js"
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          { "type": "command", "command": "node .claude/hooks/pre-tool.js" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          { "type": "command", "command": "node .claude/hooks/post-tool.js" }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node .claude/hooks/session-start.js" }
+        ]
+      }
+    ]
   },
   "env": {
     "NODE_ENV": "development",
     "LOG_LEVEL": "info"
-  },
-  "allowedCommands": [
-    "node",
-    "npm",
-    "npx",
-    "cat",
-    "ls",
-    "mkdir",
-    "cp",
-    "mv"
-  ],
-  "mcpServers": {
-    "filesystem": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./src"]
-    }
   }
 }
