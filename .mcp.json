@@ -18,6 +18,15 @@
         "MYSQL_DB":   "${DB_NAME}"
       },
       "description": "Lets Claude query MySQL directly for debugging — read-only recommended"
+    },
+    "github": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "description": "GitHub API access — used by pr-opener subagent for create_pull_request, list_pull_requests, etc."
     }
   }
 }
